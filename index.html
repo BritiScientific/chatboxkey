@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <title>QuickRoom — Temporary Group Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="QuickRoom home">
+        <span class="brand-mark">q</span><span>quickroom<span class="brand-dot">.</span></span>
+      </a>
+      <div class="top-note"><span class="live-dot"></span> Temporary by design</div>
+    </header>
+
+    <main>
+      <section id="landingView" class="landing-view">
+        <div class="hero">
+          <div class="eyebrow"><span class="sparkle">✦</span> INSTANT GROUP CHAT</div>
+          <h1>Good conversations.<br><span>No strings attached.</span></h1>
+          <p class="hero-copy">Create a private space for your team, share a quick code, and get things done. No accounts. No history. Just here and now.</p>
+        </div>
+
+        <div class="home-card">
+          <label class="field-label" for="displayName">YOUR DISPLAY NAME <span class="optional">OPTIONAL</span></label>
+          <input id="displayName" class="text-input" maxlength="24" placeholder="e.g. Alex" autocomplete="off" />
+          <div class="action-grid">
+            <button id="createBtn" class="primary-action">
+              <span class="action-icon">＋</span>
+              <span><strong>Create a Room</strong><small>Start a new conversation</small></span>
+              <span class="arrow">→</span>
+            </button>
+            <button id="showJoinBtn" class="secondary-action">
+              <span class="action-icon join-icon">↗</span>
+              <span><strong>Join a Room</strong><small>Enter a 6-character code</small></span>
+              <span class="arrow">→</span>
+            </button>
+          </div>
+          <div id="joinPanel" class="join-panel hidden">
+            <label class="field-label" for="roomCodeInput">ROOM CODE</label>
+            <div class="join-row">
+              <input id="roomCodeInput" class="text-input code-input" maxlength="6" placeholder="ABC123" autocomplete="off" />
+              <button id="joinBtn" class="join-submit">Join room <span>→</span></button>
+            </div>
+          </div>
+          <p id="homeError" class="error-text hidden" role="alert"></p>
+          <div class="privacy-note"><span>◈</span> No sign-up · No database · Rooms vanish when anyone leaves</div>
+        </div>
+        <div class="bottom-caption">MADE FOR THE MOMENT <span>✳</span></div>
+      </section>
+
+      <section id="chatView" class="chat-view hidden">
+        <div class="chat-heading">
+          <div>
+            <div class="room-kicker"><span class="live-dot"></span> LIVE ROOM</div>
+            <h2>Team conversation</h2>
+            <p class="room-subtitle">A temporary space for your group.</p>
+          </div>
+          <button id="leaveBtn" class="leave-btn"><span>↗</span> Leave / End Room</button>
+        </div>
+
+        <div class="room-info-card">
+          <div class="room-code-block">
+            <span class="field-label">ROOM CODE</span>
+            <div class="code-line"><strong id="activeRoomCode">------</strong><button id="copyBtn" class="copy-btn">▢ <span>Copy Code / Link</span></button></div>
+          </div>
+          <div class="participant-block"><span class="people-icon">♧</span><div><strong id="participantCount">1</strong><small>Participants</small></div></div>
+        </div>
+
+        <div class="chat-panel">
+          <div class="chat-panel-top"><div><span class="live-dot"></span> Messages <span class="encrypted-note">· Ephemeral session</span></div><span id="messageCount">0 messages</span></div>
+          <div id="messages" class="messages">
+            <div id="emptyState" class="empty-state">
+              <div class="empty-icon">✳</div><strong>Your room is ready.</strong><p>Share the code and say hello to your team.</p>
+            </div>
+          </div>
+          <div id="imagePreview" class="image-preview hidden"><img id="previewImage" alt="Image preview"><span id="previewName"></span><button id="removeImageBtn" aria-label="Remove image">×</button></div>
+          <div class="composer-wrap">
+            <div class="composer-tools">
+              <label class="tool-btn" for="imageInput" title="Attach image">＋</label>
+              <input id="imageInput" type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden>
+              <div class="emoji-wrap"><button id="emojiBtn" class="tool-btn" title="Add emoji">☺</button><div id="emojiPicker" class="emoji-picker hidden"></div></div>
+              <span class="composer-hint">Paste a screenshot with Ctrl+V / Cmd+V</span>
+            </div>
+            <div class="composer-row">
+              <textarea id="messageInput" rows="1" maxlength="2000" placeholder="Write a message..."></textarea>
+              <button id="sendBtn" class="send-btn" aria-label="Send message">↑</button>
+            </div>
+            <div class="composer-foot"><span>Enter to send · Shift + Enter for a new line</span><span id="charCount">0 / 2000</span></div>
+          </div>
+        </div>
+        <p class="room-warning"><span>⚠</span> If anyone leaves or disconnects, this room ends for everyone.</p>
+      </section>
+    </main>
+    <div id="toast" class="toast hidden"></div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
